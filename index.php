@@ -1,7 +1,5 @@
 <?php
-// Your ID and token
-$blogID = '8070105920543249955';
-$authToken = 'OAuth 2.0 token here';
+include 'creds.php';
 
 // The data to send to the API
 $postData = array(
@@ -12,15 +10,14 @@ $postData = array(
 );
 
 // Setup cURL
-$ch = curl_init('https://www.googleapis.com/blogger/v3/blogs/'.$blogID.'/posts/');
+$ch = curl_init('https://jumla.cic.co.ke/api/Auth/Login');
 curl_setopt_array($ch, array(
     CURLOPT_POST => TRUE,
     CURLOPT_RETURNTRANSFER => TRUE,
     CURLOPT_HTTPHEADER => array(
-        'Authorization: '.$authToken,
         'Content-Type: application/json'
     ),
-    CURLOPT_POSTFIELDS => json_encode($postData)
+    CURLOPT_POSTFIELDS => json_encode($credsData)
 ));
 
 // Send the request
