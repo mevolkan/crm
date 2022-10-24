@@ -1,9 +1,6 @@
 <?php
 include 'creds.php';
 
-    // The data to send to the API
-;
-
 // Create the context for the request
 $context = stream_context_create(array(
     'http' => array(
@@ -31,7 +28,6 @@ echo $responseData['value']['accesstoken'];
 $accesstoken = $responseData['value']['accesstoken'];
 
 //get complaint types
-
 function getComplaintTypes($accesstoken)
 {
     // Create the context for the request
@@ -55,7 +51,6 @@ function getComplaintTypes($accesstoken)
     echo $responseData['statusCode'];
     echo $responseData['statusReason'];
 }
-
 
 function createCase($accesstoken)
 {
@@ -99,3 +94,4 @@ function createCase($accesstoken)
 
 getComplaintTypes($accesstoken);
 createCase($accesstoken);
+?>
