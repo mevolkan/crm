@@ -1,11 +1,12 @@
+<?php
+include 'creds.php';
+?>
 <!DOCTYPE html>
 <html>
 <?php
 // define variables and set to empty values
 $surNameErr = $firstNameErr = $emailErr = $phoneErr = $complaintTypeErr = $recommendationErr = "";
 $complaintType = $firstName = $surName = $phone = $email =  $description = $recommendation = "";
-include 'creds.php';
-
 ?>
 
 <body>
@@ -95,22 +96,22 @@ include 'creds.php';
             $complaintTypeErr = "complaintType is required";
         } else {
             $complaintType = test_input($_POST["complaintType"]);
+            
         }
     }
 
-    function test_input($accesstoken, $data)
+    function test_input($data)
     {
+        global $data;
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         echo $data;
         return $data;
-        login();
-        createCase($accesstoken, $data);
     }
 
     //login to api
-    function login()
+    function login($credsData)
     {
         // Create the context for the request
         $context = stream_context_create(array(
@@ -131,32 +132,30 @@ include 'creds.php';
 
         // Decode the response
         $responseData = json_decode($response, TRUE);
-
-        // Print the date from the response
-        // echo $responseData['status'];
-        // echo $responseData['message'];
-        // echo $responseData['value']['accesstoken'];
+        //save token from response
+        global $accesstoken;
         $accesstoken = $responseData['value']['accesstoken'];
         return $accesstoken;
     }
 
     //create case 
-    function createCase($accesstoken, $data)
+    function createCase($accesstoken, $complaintType, $firstName, $surName, $phone, $email, $description, $recommendation)
     {
-
+        
         $postData = array(
             'ClientType' => '1',
             'CaseOrigin' => '3',
             'CaseType' => '1',
-            'ComplaintType' => $data[0],
-            'FirstName' => $data[1],
-            'Surname' => $data[2],
-            'PhoneNumber' => $data[3],
-            'EmailAddress' => $data[4],
-            'Description' => $data[5],
-            'RecommendedActions' => $data[6],
+            'ComplaintType' => $complaintType,
+            'FirstName' => $firstName,
+            'Surname' => $surName,
+            'PhoneNumber' => $phone,
+            'EmailAddress' => $email,
+            'Description' => $description,
+            'RecommendedActions' => $recommendation,
         );
 
+        
         $context = stream_context_create(array(
             'http' => array(
                 'method' => 'POST',
@@ -182,6 +181,9 @@ include 'creds.php';
         var_dump($responseData);
         return $responseData['statusReason'];
     }
+
+    login($credsData);
+    createCase($accesstoken, $data);
     ?>
 
 </body>
