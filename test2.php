@@ -1,5 +1,5 @@
 <?php
-$url = "http://www.example.org/";
+$url = "https://cic.co.ke/";
 $ch = curl_init();
 curl_setopt ($ch, CURLOPT_URL, $url);
 curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
