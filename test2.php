@@ -3,7 +3,13 @@ include 'creds.php';
 
 $url = "https://jumla.cic.co.ke/api/Auth/Login";
 $ch = curl_init();
+$certificate_location = "/certificate/cacert.pem";
 curl_setopt ($ch, CURLOPT_URL, $url);
+
+curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, $certificate_location);
+curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, $certificate_location);
+// curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
 curl_setopt ($ch, CURLOPT_POST, 1);                //0 for a get request
 curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt ($ch, CURLOPT_POSTFIELDS, $credsData );
